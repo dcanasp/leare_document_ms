@@ -1,0 +1,6 @@
+bin/
+logs/
+temp/
+setEnv.go
+go.sum
+threat.md
