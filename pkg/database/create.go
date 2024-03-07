@@ -24,13 +24,13 @@ func (dynamoX *MyDynamoClient) ListTables() ([]string, error) {
 }
 
 // Adds a entry to dynamo
-func (dynamoX *MyDynamoClient) AddEntry() error {
+func (dynamoX *MyDynamoClient) AddEntry(videoId string, value string) error {
 	// Prepare the input for the PutItem operation
 	input := &dynamodb.PutItemInput{
 		TableName: aws.String(dynamoX.TableName),
 		Item: map[string]types.AttributeValue{
-			"videoId": &types.AttributeValueMemberS{Value: "test"},
-			"Value":   &types.AttributeValueMemberS{Value: "axolot"},
+			"videoId": &types.AttributeValueMemberS{Value: videoId},
+			"Value":   &types.AttributeValueMemberS{Value: value},
 		},
 	}
 
@@ -45,19 +45,19 @@ func (dynamoX *MyDynamoClient) AddEntry() error {
 }
 
 // Reads the content of an entry from dynamo
-func (dynamoX *MyDynamoClient) ReadEntry(PartitionKey string) error {
+func (dynamoX *MyDynamoClient) ReadEntry(partitionKey string) (string, error) {
 	// Prepare the input for the GetItem operation
 	input := &dynamodb.GetItemInput{
 		TableName: aws.String(dynamoX.TableName),
 		Key: map[string]types.AttributeValue{
-			"videoId": &types.AttributeValueMemberS{Value: PartitionKey},
+			"videoId": &types.AttributeValueMemberS{Value: partitionKey},
 		},
 	}
 
 	// Execute the GetItem operation
 	result, err := dynamoX.client.GetItem(context.TODO(), input)
 	if err != nil {
-		return fmt.Errorf("failed to read entry, %v", err)
+		return "", fmt.Errorf("failed to read entry, %v", err)
 	}
 
 	if valueAttr, ok := result.Item["Value"].(*types.AttributeValueMemberS); ok {
@@ -65,11 +65,27 @@ func (dynamoX *MyDynamoClient) ReadEntry(PartitionKey string) error {
 		//todo Aprender a hacer eso
 		// Now valueAttr.Value contains the clean string
 		logs.I.Println("Entry:", valueAttr.Value)
-		return nil
+		return valueAttr.Value, nil
 	} else {
 		// Handle the case where the value is not of the expected type or is missing
-		return fmt.Errorf("Entry value is missing or not a string")
+		return "", fmt.Errorf("Entry value is missing or not a string")
 
 	}
 
+}
+
+func (dynamoX *MyDynamoClient) DeleteEntry(partitionKey string) error {
+	input := &dynamodb.DeleteItemInput{
+		TableName: aws.String(dynamoX.TableName),
+		Key: map[string]types.AttributeValue{
+			"videoId": &types.AttributeValueMemberS{Value: partitionKey},
+		},
+	}
+
+	_, err := dynamoX.client.DeleteItem(context.TODO(), input)
+	if err != nil {
+		logs.E.Printf("Got error calling DeleteItem: %s", err)
+		return err
+	}
+	return nil
 }

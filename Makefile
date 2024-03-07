@@ -6,3 +6,4 @@ start:
 	@./bin/stream.exe
 
 # Compilado con gnuWin32
+#start cmd /c "docker start some-rabbit && timeout /t 60 && cd HighQualityMicroservice && make"

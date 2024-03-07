@@ -19,7 +19,7 @@ type S3FullClient struct {
 	Data     bucketDetails
 }
 
-func SetS3() (S3FullClient, error) {
+func SetS3() (*S3FullClient, error) {
 
 	var region string = os.Getenv("AWS_REGION")
 	cfg, err := config.LoadDefaultConfig(context.TODO(),
@@ -36,7 +36,7 @@ func SetS3() (S3FullClient, error) {
 
 	// S3FullClient.data.Region = region
 	// S3FullClient.data.BucketName = bucketName
-	return S3FullClient, nil
+	return &S3FullClient, nil
 }
 
 // package main

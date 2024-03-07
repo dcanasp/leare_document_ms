@@ -14,7 +14,7 @@ type MyDynamoClient struct {
 	TableName string
 }
 
-func Start() (MyDynamoClient, error) {
+func Start() (*MyDynamoClient, error) {
 
 	var region string = os.Getenv("AWS_REGION")
 	cfg, err := config.LoadDefaultConfig(context.TODO(),
@@ -26,7 +26,7 @@ func Start() (MyDynamoClient, error) {
 
 	// Using the Config value, create the DynamoDB client
 	svc := MyDynamoClient{client: dynamodb.NewFromConfig(cfg)}
-	return svc, nil
+	return &svc, nil
 }
 
 func (dynamoX *MyDynamoClient) SetTable(tableName string) error {
