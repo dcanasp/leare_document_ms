@@ -2,8 +2,8 @@ package res
 
 import (
 	"encoding/json"
+	logs "global/logging"
 	"net/http"
-	logs "stream/pkg/utils/logging"
 )
 
 // all worked? what is the value

@@ -1,8 +1,9 @@
 package main
 
 import (
+	"global"
+	logs "global/logging"
 	"stream/pkg/awsConfig"
-	logs "stream/pkg/utils/logging"
 
 	"stream/pkg/routes"
 )
@@ -13,14 +14,17 @@ func main() {
 	//there are 3 loggers, on the logs package, use them accordingly
 	//there is a global logger. if you use the normal log. it will go to the info and console
 	//there is also a
-	err := SetENV()
-
+	err := global.SetENV()
 	if err != nil {
 		logs.E.Fatalf("Could not start the ENV %v", err)
 	}
 	awsConfig.Main()
 
 	routes.Main(3012)
+	// go routes.Main(3012) // Start the server in a new goroutine
+	// select {}
+
+	// Block the main function from exiting
 	/*
 		//configure s3 client
 		s3Client, err := fileStorage.SetS3()

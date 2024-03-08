@@ -14,22 +14,22 @@ var (
 
 func init() {
 	// Ensure the directory exists (MkdirAll is no-op if directory already exists)
-	if err := os.MkdirAll("logs", 0755); err != nil {
+	if err := os.MkdirAll("../logs", 0755); err != nil {
 		log.Fatalf("Failed to create log directory: %v", err)
 	}
 
 	// Create log files or open them if they already exist
-	errorFile, err := os.OpenFile("logs/error.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	errorFile, err := os.OpenFile("../logs/error.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatalf("error opening error log file: %v", err)
 	}
 
-	infoFile, err := os.OpenFile("logs/info.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	infoFile, err := os.OpenFile("../logs/info.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatalf("error opening info log file: %v", err)
 	}
 
-	requestFile, err := os.OpenFile("logs/request.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	requestFile, err := os.OpenFile("../logs/request.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatalf("error opening request log file: %v", err)
 	}
@@ -51,7 +51,7 @@ func init() {
 func simpleLog() {
 
 	// Open or create the log file for appending, create it if it doesn't exist
-	logFile, err := os.OpenFile("logs/info.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	logFile, err := os.OpenFile("../logs/info.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatalf("Failed to open log file: %v", err)
 	}
@@ -62,4 +62,5 @@ func simpleLog() {
 
 	// Optional: Set the log to also output the date and time
 	log.SetFlags(log.LstdFlags)
+
 }

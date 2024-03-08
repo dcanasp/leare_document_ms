@@ -1,9 +1,9 @@
 package awsConfig
 
 import (
+	logs "global/logging"
 	"stream/pkg/database"
 	"stream/pkg/fileStorage"
-	logs "stream/pkg/utils/logging"
 )
 
 var (

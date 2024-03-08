@@ -1,10 +1,10 @@
 package routes
 
 import (
+	logs "global/logging"
 	"net/http"
 	"stream/pkg/awsConfig"
 	"stream/pkg/routes/res"
-	logs "stream/pkg/utils/logging"
 
 	"github.com/gorilla/mux"
 )

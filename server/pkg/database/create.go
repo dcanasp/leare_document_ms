@@ -3,7 +3,7 @@ package database
 import (
 	"context"
 	"fmt"
-	logs "stream/pkg/utils/logging"
+	logs "global/logging"
 
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"

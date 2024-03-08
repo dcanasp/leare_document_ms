@@ -1,9 +1,20 @@
-.PHONY: start
-start:
-	@echo "Building the application..."
-	@go build -o bin/ 
-	@echo "Running the application..."
-	@./bin/stream.exe
+.PHONY: all build-server build-sidecar
 
-# Compilado con gnuWin32
-#start cmd /c "docker start some-rabbit && timeout /t 60 && cd HighQualityMicroservice && make"
+all: build-server build-sidecar
+# Build commands
+build-server:
+#	@echo "Building the server application..."
+	start cmd /c "cd server && make"  
+
+build-sidecar:
+# 	@echo "Building the sidecar application..."
+	start cmd /c "cd sidecar && make" 
+
+# run-server:
+# 	@echo "Running the server application..."
+# 	start cmd /k ".\bin\server.exe"
+
+# run-sidecar:
+# 	@echo "Running the sidecar application..."
+# 	start cmd /k ".\bin\sidecar.exe"
+

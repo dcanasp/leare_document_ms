@@ -3,16 +3,15 @@ package routes
 import (
 	"encoding/json"
 	"fmt"
+	logs "global/logging"
 	"net/http"
 	configs "stream/pkg/awsConfig"
 	"stream/pkg/routes/res"
-	logs "stream/pkg/utils/logging"
 
 	"github.com/gorilla/mux"
 )
 
 func Get(r *mux.Router) {
-
 	//GetFile
 	//CreateFile
 	//editFile
@@ -20,6 +19,7 @@ func Get(r *mux.Router) {
 
 	r.HandleFunc("/{id}", func(w http.ResponseWriter, r *http.Request) {
 		//^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
+
 		vars := mux.Vars(r)
 
 		videoId := vars["id"]
