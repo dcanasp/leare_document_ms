@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	logs "global/logging"
+	configs "global/pkg/awsConfig"
 	"net/http"
-	configs "stream/pkg/awsConfig"
 	"stream/pkg/routes/res"
 
 	"github.com/gorilla/mux"

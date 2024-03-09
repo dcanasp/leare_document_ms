@@ -10,6 +10,7 @@ var (
 	E *log.Logger
 	I *log.Logger
 	R *FilteredLogger
+	X *log.Logger
 )
 
 func init() {
@@ -34,6 +35,11 @@ func init() {
 		log.Fatalf("error opening request log file: %v", err)
 	}
 
+	retryFile, err := os.OpenFile("../logs/request.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Fatalf("error opening request log file: %v", err)
+	}
+
 	// Initialize ErrorLogger with the MultiWriter
 
 	// Create custom loggers
@@ -45,6 +51,10 @@ func init() {
 
 	baseRequestLogger := log.New(requestFile, "REQUEST: ", log.LstdFlags)
 	R = NewFilteredLogger(baseRequestLogger)
+
+	multiWriter = io.MultiWriter(os.Stderr, retryFile)
+	X = log.New(multiWriter, "", 0)
+
 	simpleLog()
 }
 

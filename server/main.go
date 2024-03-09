@@ -3,7 +3,7 @@ package main
 import (
 	"global"
 	logs "global/logging"
-	"stream/pkg/awsConfig"
+	"global/pkg/awsConfig"
 
 	"stream/pkg/routes"
 )

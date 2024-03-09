@@ -8,7 +8,14 @@ type DbEntry struct {
 }
 
 type BrokerEntry struct {
+	VideoId  string
 	FileName string
 	FileType string
 	UserId   string
+}
+
+type DynamoEntry struct {
+	FilePath string
+	BrokerEntry
+	Date int64
 }
