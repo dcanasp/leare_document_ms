@@ -8,14 +8,14 @@ type DbEntry struct {
 }
 
 type BrokerEntry struct {
-	VideoId  string
-	FileName string
-	FileType string
-	UserId   string
+	VideoId  string `json:"VideoId"`
+	FileName string `json:"FileName"`
+	FileType string `json:"FileType"`
+	UserId   string `json:"UserId"`
 }
 
 type DynamoEntry struct {
-	FilePath string
+	FilePath string `json:"FilePath"`
 	BrokerEntry
-	Date int64
+	Date int64 `json:"Date"`
 }

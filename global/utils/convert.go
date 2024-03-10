@@ -26,6 +26,7 @@ func BrokerToDynamo(brokerEntry globalTypes.BrokerEntry, filepath string) (globa
 	var dynamoEntry globalTypes.DynamoEntry
 	dynamoEntry.FilePath = filepath
 	dynamoEntry.UserId = brokerEntry.UserId
+	dynamoEntry.VideoId = brokerEntry.VideoId
 	dynamoEntry.FileName = brokerEntry.FileName
 	dynamoEntry.FileType = brokerEntry.FileType
 	dynamoEntry.Date = time.Now().Unix()
