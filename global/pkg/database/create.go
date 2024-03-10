@@ -7,15 +7,16 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-	"github.com/aws/aws-sdk-go/aws"
 )
 
 // Gets tables names from dynamo
 func (dynamoX *MyDynamoClient) ListTables() ([]string, error) {
 
+	var tableLimit int32 = 5
 	resp, err := dynamoX.client.ListTables(context.TODO(), &dynamodb.ListTablesInput{
-		Limit: aws.Int32(5),
+		Limit: &tableLimit,
 	})
+
 	if err != nil {
 		return nil, fmt.Errorf("failed to list tables, %v", err)
 	}
@@ -27,7 +28,7 @@ func (dynamoX *MyDynamoClient) ListTables() ([]string, error) {
 func (dynamoX *MyDynamoClient) AddEntry(videoId string, value string) error {
 	// Prepare the input for the PutItem operation
 	input := &dynamodb.PutItemInput{
-		TableName: aws.String(dynamoX.TableName),
+		TableName: &dynamoX.TableName,
 		Item: map[string]types.AttributeValue{
 			"videoId": &types.AttributeValueMemberS{Value: videoId},
 			"Value":   &types.AttributeValueMemberS{Value: value},
@@ -48,7 +49,7 @@ func (dynamoX *MyDynamoClient) AddEntry(videoId string, value string) error {
 func (dynamoX *MyDynamoClient) ReadEntry(partitionKey string) (string, error) {
 	// Prepare the input for the GetItem operation
 	input := &dynamodb.GetItemInput{
-		TableName: aws.String(dynamoX.TableName),
+		TableName: &dynamoX.TableName,
 		Key: map[string]types.AttributeValue{
 			"videoId": &types.AttributeValueMemberS{Value: partitionKey},
 		},
@@ -76,7 +77,7 @@ func (dynamoX *MyDynamoClient) ReadEntry(partitionKey string) (string, error) {
 
 func (dynamoX *MyDynamoClient) DeleteEntry(partitionKey string) error {
 	input := &dynamodb.DeleteItemInput{
-		TableName: aws.String(dynamoX.TableName),
+		TableName: &dynamoX.TableName,
 		Key: map[string]types.AttributeValue{
 			"videoId": &types.AttributeValueMemberS{Value: partitionKey},
 		},

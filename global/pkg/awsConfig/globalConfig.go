@@ -15,20 +15,20 @@ func Main() {
 
 	logs.I.Print("ENTRA A la configuracion de aws")
 	//Configure aws
-	_, err := Session()
+	cfg, err := Session()
 	if err != nil {
 		logs.E.Fatalf("Aws not configured %v", err)
 	}
 
 	//configure s3 client
-	S3Client, err = fileStorage.SetS3()
+	S3Client, err = fileStorage.SetS3(*cfg)
 	//Todo estos son punteros
 	if err != nil {
 		logs.E.Fatalf("s3 could not be started %v", err)
 	}
 
 	//configure Dynamo client
-	DynamoClient, err = database.Start()
+	DynamoClient, err = database.Start(*cfg)
 	if err != nil {
 		logs.E.Fatalf("Dynamo could not be started %v", err)
 	}

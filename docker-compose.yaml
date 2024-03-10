@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    ports:
+      - "3012:3012"
+    volumes:
+      - type: volume
+        source: app_temp
+        target: /temp
+        volume:
+          nocopy: true
+      - type: volume
+        source: app_logs
+        target: /logs
+        volume:
+          nocopy: true
+
+  sidecar:
+    build:
+      context: .
+      dockerfile: Dockerfile.sidecar
+    volumes:
+      - type: volume
+        source: app_temp
+        target: /temp
+        volume:
+          nocopy: true
+      - type: volume
+        source: app_logs
+        target: /logs
+        volume:
+          nocopy: true
+
+volumes:
+  app_temp:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /temp
+  app_logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /logs

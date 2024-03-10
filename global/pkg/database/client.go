@@ -1,11 +1,7 @@
 package database
 
 import (
-	"context"
-	"fmt"
-	"os"
-
-	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 )
 
@@ -14,16 +10,7 @@ type MyDynamoClient struct {
 	TableName string
 }
 
-func Start() (*MyDynamoClient, error) {
-
-	var region string = os.Getenv("AWS_REGION")
-	cfg, err := config.LoadDefaultConfig(context.TODO(),
-		config.WithRegion(region),
-	)
-	if err != nil {
-		_ = fmt.Errorf("unable to load SDK config, %v", err)
-	}
-
+func Start(cfg aws.Config) (*MyDynamoClient, error) {
 	// Using the Config value, create the DynamoDB client
 	svc := MyDynamoClient{client: dynamodb.NewFromConfig(cfg)}
 	return &svc, nil

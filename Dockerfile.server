@@ -1,0 +1,25 @@
+# Stage 1: Build
+FROM golang:1.21.5-alpine3.19 as builder
+WORKDIR /app
+
+# Copy the local package files to the container's workspace.
+COPY . /app
+
+# Build the server command inside the container.
+# (Assuming the server's main.go is in the server directory)
+WORKDIR /app/server
+RUN go build -o server
+
+# Stage 2: Lightweight "production" image
+FROM alpine:3.19
+WORKDIR /root/
+
+# Copy the binary from the builder stage
+COPY --from=builder /app/server/server .
+
+EXPOSE 3012
+# Run the server binary.
+CMD ["./server"]
+
+#docker build -f Dockerfile.server -t myproject/server .
+#docker run --name documents_ms -p 3012:3012 -it myproject/server

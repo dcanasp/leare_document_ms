@@ -1,11 +1,9 @@
 package fileStorage
 
 import (
-	"context"
-	"log"
 	"os"
 
-	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 )
 
@@ -19,15 +17,9 @@ type S3FullClient struct {
 	Data     bucketDetails
 }
 
-func SetS3() (*S3FullClient, error) {
+func SetS3(cfg aws.Config) (*S3FullClient, error) {
 
 	var region string = os.Getenv("AWS_REGION")
-	cfg, err := config.LoadDefaultConfig(context.TODO(),
-		config.WithRegion(region),
-	)
-	if err != nil {
-		log.Fatalf("Unable to load SDK config, %v", err)
-	}
 
 	s3Client := s3.NewFromConfig(cfg)
 
