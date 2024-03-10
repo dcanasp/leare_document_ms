@@ -1,5 +1,7 @@
 bin/
 .vscode/
+logs/
+temp/
 setEnv.go
 go.sum
 go.work.sum
