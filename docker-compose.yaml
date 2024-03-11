@@ -34,6 +34,14 @@ services:
         target: /logs
         volume:
           nocopy: true
+  rabbit:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: arquisoft
+      RABBITMQ_DEFAULT_PASS: password
 
 volumes:
   app_temp:

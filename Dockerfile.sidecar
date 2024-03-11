@@ -1,25 +1,19 @@
-# Stage 1: Build
 FROM golang:1.21.5-alpine3.19 as builder
 WORKDIR /app
 
-# Copy the local package files to the container's workspace.
 COPY . /app
 
-# Build the server command inside the container.
-# (Assuming the server's main.go is in the server directory)
 WORKDIR /app/sidecar
 RUN go build -o sidecar
 
-# Stage 2: Lightweight "production" image
 FROM alpine:3.19
 WORKDIR /root/
 
-# Copy the binary from the builder stage
 COPY --from=builder /app/sidecar/sidecar .
 
-# Run the server binary.
-CMD ["./sidecar"]
 
+# CMD ["./sidecar"]
+CMD /bin/sleep 60 && ./sidecar
 
 #docker run -e rabbitMQServerIP=host.docker.internal -d your_image_name
 #docker build -f Dockerfile.sidecar -t myproject/sidecar .
