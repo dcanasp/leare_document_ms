@@ -8,32 +8,17 @@ services:
     ports:
       - "3012:3012"
     volumes:
-      - type: volume
-        source: app_temp
-        target: /temp
-        volume:
-          nocopy: true
-      - type: volume
-        source: app_logs
-        target: /logs
-        volume:
-          nocopy: true
+      - ./temp:/temp
+      - ./logs:/logs
 
   sidecar:
     build:
       context: .
       dockerfile: Dockerfile.sidecar
     volumes:
-      - type: volume
-        source: app_temp
-        target: /temp
-        volume:
-          nocopy: true
-      - type: volume
-        source: app_logs
-        target: /logs
-        volume:
-          nocopy: true
+      - ./temp:/temp
+      - ./logs:/logs
+
   rabbit:
     image: rabbitmq:management
     ports:
@@ -42,17 +27,3 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: arquisoft
       RABBITMQ_DEFAULT_PASS: password
-
-volumes:
-  app_temp:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /temp
-  app_logs:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /logs
