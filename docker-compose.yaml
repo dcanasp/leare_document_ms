@@ -1,17 +1,17 @@
 version: '3.8'
 
 services:
-  server:
+  document_server:
     build:
       context: .
       dockerfile: Dockerfile.server
     ports:
-      - "3012:3012"
+      - "3004:3004"
     volumes:
       - ./temp:/temp
       - ./logs:/logs
 
-  sidecar:
+  document_sidecar:
     build:
       context: .
       dockerfile: Dockerfile.sidecar
@@ -19,7 +19,7 @@ services:
       - ./temp:/temp
       - ./logs:/logs
 
-  rabbit:
+  document_rabbit:
     image: rabbitmq:management
     ports:
       - "5672:5672"

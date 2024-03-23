@@ -20,7 +20,7 @@ func main() {
 	}
 	awsConfig.Main()
 
-	routes.Main(3012)
+	routes.Main(3004)
 	// go routes.Main(3012) // Start the server in a new goroutine
 	// select {}
 
