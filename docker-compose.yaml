@@ -18,7 +18,9 @@ services:
     volumes:
       - ./temp:/temp
       - ./logs:/logs
-
+    depends_on:
+      - document_rabbit
+      
   document_rabbit:
     image: rabbitmq:management
     ports:
