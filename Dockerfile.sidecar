@@ -13,7 +13,7 @@ COPY --from=builder /app/sidecar/sidecar .
 
 
 # CMD ["./sidecar"]
-CMD /bin/sleep 90 && ./sidecar
+CMD /bin/sleep 300 && ./sidecar
 
 #docker run -e rabbitMQServerIP=host.docker.internal -d your_image_name
 #docker build -f Dockerfile.sidecar -t myproject/sidecar .
