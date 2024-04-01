@@ -98,5 +98,5 @@ func Delete(r *mux.Router) {
 
 		res.Response_Success(w)
 
-	}).Methods("DELETE")
+	}).Methods("POST")
 }
