@@ -41,3 +41,12 @@ func DynamoBodyToBytes(body globalTypes.DynamoEntry) ([]byte, error) {
 	}
 	return jsonBody, nil
 }
+
+func DynamoStringToJson(result string) (globalTypes.DynamoEntry, error) {
+	var dynamo globalTypes.DynamoEntry
+	err := json.Unmarshal([]byte(result), &dynamo)
+	if err != nil {
+		return globalTypes.DynamoEntry{}, err
+	}
+	return dynamo, nil
+}

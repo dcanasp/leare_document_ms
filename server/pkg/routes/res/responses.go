@@ -2,9 +2,44 @@ package res
 
 import (
 	"encoding/json"
+	"global/globalTypes"
 	logs "global/logging"
 	"net/http"
 )
+
+// unique for batch find
+func Response_S_Structure(w http.ResponseWriter, success bool, value map[string]globalTypes.DynamoEntry) {
+
+	w.Header().Set("Content-Type", "application/json")
+
+	responseObj := Dto_S_V{
+		Success: success,
+		Value:   value,
+	}
+
+	errJson := json.NewEncoder(w).Encode(responseObj)
+	if errJson != nil {
+		logs.E.Printf("Failed to encode JSON: %v", errJson)
+		http.Error(w, "Failed to encode JSON", http.StatusInternalServerError)
+	}
+}
+
+// unique for find unique
+func Response_S_Dynamo(w http.ResponseWriter, success bool, value globalTypes.DynamoEntry) {
+
+	w.Header().Set("Content-Type", "application/json")
+
+	responseObj := Dto_S_V{
+		Success: success,
+		Value:   value,
+	}
+
+	errJson := json.NewEncoder(w).Encode(responseObj)
+	if errJson != nil {
+		logs.E.Printf("Failed to encode JSON: %v", errJson)
+		http.Error(w, "Failed to encode JSON", http.StatusInternalServerError)
+	}
+}
 
 // all worked? what is the value
 func Response_S_V(w http.ResponseWriter, success bool, value string) {
