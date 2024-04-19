@@ -78,8 +78,10 @@ func (client *BrokerClient) Connect() {
 			dynamoEntry, _ := utils.BrokerToDynamo(bodyBroker, s3FullLink+filePath) //also ads filePath
 			dynamoBytes, err := utils.DynamoBodyToBytes(dynamoEntry)
 			utils.Error(err, "no se pudo convertir el body de dynamo")
-			dynamoClient.AddEntry(bodyBroker.VideoId, string(dynamoBytes))
-
+			err = dynamoClient.AddEntry(bodyBroker.VideoId, string(dynamoBytes))
+			if err != nil {
+				logs.E.Println("add to dynamo: ", err)
+			}
 		}
 	}()
 

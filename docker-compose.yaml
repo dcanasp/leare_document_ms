@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  document_server:
+  document-server:
     build:
       context: .
       dockerfile: Dockerfile.server
@@ -10,8 +10,13 @@ services:
     volumes:
       - ./temp:/temp
       - ./logs:/logs
+    depends_on:
+      document-db:
+        condition: service_healthy
+    networks:
+      - leare-network
 
-  document_sidecar:
+  document-sidecar:
     build:
       context: .
       dockerfile: Dockerfile.sidecar
@@ -19,9 +24,34 @@ services:
       - ./temp:/temp
       - ./logs:/logs
     depends_on:
-      - document_rabbit
-      
-  document_rabbit:
+      document-db:
+        condition: service_healthy
+      document-rabbit:
+        condition: service_healthy
+
+    networks:
+      - leare-network
+
+  document-db:
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data -port 3014"
+    image: "amazon/dynamodb-local:latest"
+    container_name: document-db
+    ports:
+      - "3014:3014"
+    volumes:
+      - "../db/leare_document_db:/home/dynamodblocal/data"
+    working_dir: /home/dynamodblocal
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s -o /dev/null -w '%{http_code}' http://localhost:3014 | grep -E '400|200'"]
+      interval: 5s
+      timeout: 1s
+      retries: 5
+      start_period: 40s
+    networks:
+      - leare-network
+
+
+  document-rabbit:
     image: rabbitmq:management
     ports:
       - "5672:5672"
@@ -29,3 +59,15 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: arquisoft
       RABBITMQ_DEFAULT_PASS: password
+    healthcheck:   
+      test: ["CMD-SHELL", "rabbitmq-diagnostics -q check_running"]
+      interval: 50s
+      timeout: 4s
+      retries: 5
+      start_period: 3m
+    networks:
+      - leare-network
+
+networks:
+  leare-network:
+    driver: bridge

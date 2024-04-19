@@ -13,7 +13,7 @@ import (
 func (dynamoX *MyDynamoClient) ListTables() ([]string, error) {
 
 	var tableLimit int32 = 5
-	resp, err := dynamoX.client.ListTables(context.TODO(), &dynamodb.ListTablesInput{
+	resp, err := dynamoX.Client.ListTables(context.TODO(), &dynamodb.ListTablesInput{
 		Limit: &tableLimit,
 	})
 
@@ -36,7 +36,7 @@ func (dynamoX *MyDynamoClient) AddEntry(videoId string, value string) error {
 	}
 
 	// Execute the PutItem operation
-	_, err := dynamoX.client.PutItem(context.TODO(), input)
+	_, err := dynamoX.Client.PutItem(context.TODO(), input)
 	if err != nil {
 		return fmt.Errorf("failed to add entry on dynamo, %v", err)
 	}
@@ -56,7 +56,7 @@ func (dynamoX *MyDynamoClient) ReadEntry(partitionKey string) (string, error) {
 	}
 
 	// Execute the GetItem operation
-	result, err := dynamoX.client.GetItem(context.TODO(), input)
+	result, err := dynamoX.Client.GetItem(context.TODO(), input)
 	if err != nil {
 		return "", fmt.Errorf("failed to read entry, %v", err)
 	}
@@ -83,7 +83,7 @@ func (dynamoX *MyDynamoClient) DeleteEntry(partitionKey string) error {
 		},
 	}
 
-	_, err := dynamoX.client.DeleteItem(context.TODO(), input)
+	_, err := dynamoX.Client.DeleteItem(context.TODO(), input)
 	if err != nil {
 		logs.E.Printf("Got error calling DeleteItem: %s", err)
 		return err
