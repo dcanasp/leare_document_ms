@@ -11,7 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 )
 
-func (client S3FullClient) Upload(userId string, videoId string) (string, error) {
+func (client S3FullClient) Upload(userId string, videoId string, fileType string) (string, error) {
 
 	files, err := os.ReadDir("../temp") // Read files from the "temp" folder
 	if err != nil {
@@ -34,7 +34,7 @@ func (client S3FullClient) Upload(userId string, videoId string) (string, error)
 	if found == false {
 		return "", fmt.Errorf("Could find the video")
 	}
-	fullObjectKey := userId + "/" + videoId
+	fullObjectKey := userId + "/" + videoId + "." + fileType
 	_, err = client.S3Client.PutObject(context.TODO(), &s3.PutObjectInput{
 		Bucket: aws.String(client.Data.BucketName),
 		Key:    aws.String(fullObjectKey),

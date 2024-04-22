@@ -69,7 +69,7 @@ func (client *BrokerClient) Connect() {
 
 			log.Printf("Received a message: %s", bodyBroker)
 
-			filePath, err := s3Client.Upload(bodyBroker.UserId, bodyBroker.VideoId)
+			filePath, err := s3Client.Upload(bodyBroker.UserId, bodyBroker.VideoId, bodyBroker.FileType)
 			if err != nil {
 				logs.X.Print(bodyBroker.UserId + "," + bodyBroker.VideoId)
 				continue
