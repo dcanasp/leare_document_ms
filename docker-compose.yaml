@@ -28,7 +28,6 @@ services:
         condition: service_healthy
       document-rabbit:
         condition: service_healthy
-
     networks:
       - leare-network
 
@@ -38,8 +37,6 @@ services:
     container_name: document-db
     ports:
       - "3014:3014"
-    volumes:
-      - "../db/leare_document_db:/home/dynamodblocal/data"
     working_dir: /home/dynamodblocal
     healthcheck:
       test: ["CMD-SHELL", "curl -s -o /dev/null -w '%{http_code}' http://localhost:3014 | grep -E '400|200'"]
@@ -47,9 +44,23 @@ services:
       timeout: 1s
       retries: 5
       start_period: 40s
+    volumes:
+     - dynamodb_data:/home/dynamodblocal/data
     networks:
       - leare-network
 
+  file-storage:
+    image: localstack/localstack:s3-latest
+    ports:
+      - "4566:4566"            # LocalStack Gateway
+    environment:
+      - services=s3
+      - DEBUG=${DEBUG:-0}
+    volumes:
+      - "file_storage_data:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - leare-network
 
   document-rabbit:
     image: rabbitmq:management
@@ -67,6 +78,12 @@ services:
       start_period: 3m
     networks:
       - leare-network
+
+volumes:
+  dynamodb_data:
+    driver: local
+  file_storage_data:
+    driver: local
 
 networks:
   leare-network:

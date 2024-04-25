@@ -28,10 +28,20 @@ func Main() {
 
 	//configure s3 client
 	S3Client, err = fileStorage.SetS3(*cfg)
-	//Todo estos son punteros
 	if err != nil {
 		logs.E.Fatalf("s3 could not be started %v", err)
 	}
+	exist, err := S3Client.BucketExists(S3Client.Data.BucketName)
+	logs.I.Print("SALE DEL BUCKET EXISTS")
+	if !exist {
+		logs.I.Print("ESTA ENTRANDO A GLOBAL.CONFIG")
+		err = S3Client.CreateBucket(S3Client.Data.BucketName, S3Client.Data.Region)
+		if err != nil {
+			logs.E.Fatalf("Bucket not created %v", err)
+		}
+	}
+	// err = createBucketIfNotExists(S3Client, S3Client.Data.BucketName)
+	S3Client.ListBuckets() //just to test
 
 	//configure Dynamo client
 	DynamoClient, err = database.Start(*cfg)
