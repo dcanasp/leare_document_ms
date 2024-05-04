@@ -49,18 +49,18 @@ services:
     networks:
       - leare-network
 
-  file-storage:
-    image: localstack/localstack:s3-latest
-    ports:
-      - "4566:4566"            # LocalStack Gateway
-    environment:
-      - services=s3
-      - DEBUG=${DEBUG:-0}
-    volumes:
-      - "file_storage_data:/var/lib/localstack"
-      - "/var/run/docker.sock:/var/run/docker.sock"
-    networks:
-      - leare-network
+  # file-storage:
+  #   image: localstack/localstack:s3-latest
+  #   ports:
+  #     - "4566:4566"            # LocalStack Gateway
+  #   environment:
+  #     - services=s3
+  #     - DEBUG=${DEBUG:-0}
+  #   volumes:
+  #     - "file_storage_data:/var/lib/localstack"
+  #     - "/var/run/docker.sock:/var/run/docker.sock"
+  #   networks:
+  #     - leare-network
 
   document-rabbit:
     image: rabbitmq:management

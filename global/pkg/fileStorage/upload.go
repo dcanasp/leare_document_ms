@@ -195,7 +195,7 @@ func (client S3FullClient) CreateBucket(name string, region string) error {
 				{
 					AllowedHeaders: []string{"*"},
 					AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "HEAD"},
-					AllowedOrigins: []string{"http://localhost:8080", "http://localhost:7777", "http://35.215.20.21:7777", "http://35.215.20.21:8080"},
+					AllowedOrigins: []string{"http://localhost:8080", "http://localhost:7777", "https://35.215.16.102", "http://35.215.16.102"},
 					MaxAgeSeconds:  aws.Int32(3000),
 				},
 			},

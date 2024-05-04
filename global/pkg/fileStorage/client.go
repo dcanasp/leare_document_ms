@@ -20,11 +20,11 @@ type S3FullClient struct {
 func SetS3(cfg aws.Config) (*S3FullClient, error) {
 
 	var region string = os.Getenv("AWS_REGION")
-	var fileStorageIP string = os.Getenv("file_storage_ip")
+	// var fileStorageIP string = os.Getenv("file_storage_ip")
 
 	s3Client := s3.NewFromConfig(cfg, func(o *s3.Options) {
-		o.BaseEndpoint = aws.String(fileStorageIP)
-		o.UsePathStyle = true
+		// o.BaseEndpoint = aws.String(fileStorageIP)
+		// o.UsePathStyle = true
 	})
 	// file-storage:4566
 	var bucketName string = os.Getenv("bucketName")
